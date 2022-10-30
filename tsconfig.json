@@ -1,0 +1,15 @@
+{
+  "extends": "./.nitro/types/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@t/*": ["src/test/*"]
+    },
+    "allowJs": true,
+    "esModuleInterop": true,
+  },
+  "exclude": [
+    "./jest.config.js"
+  ]
+}

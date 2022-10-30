@@ -1,0 +1,10 @@
+node_modules
+package-lock.json
+src/api/products/recommendations.get.ts
+.nitro
+coverage
+*.mongodb
+*.md
+.eslintrc.js
+.env
+.output
