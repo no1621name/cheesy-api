@@ -11,7 +11,6 @@ export default eventHandler(async (e: CompatibilityEvent) => {
   if (!email) { ServerResponse.throwServerError(400); }
 
   const developers = developersDB.collection('developers');
-
   const developer = await developers.findOne({ email });
 
   if (!developer) { ServerResponse.throwServerError(400, 'Developer has not registed'); }

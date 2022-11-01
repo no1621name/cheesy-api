@@ -27,7 +27,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
 
   if (request.coupon_id < 0) { throw ServerResponse.throwServerError(400, '4'); }
   else if(request.coupon_id > 0) {
-    await $fetch<IServerResponse<'coupon', Coupon>>(`/api/coupons/${request.coupon_id}`, {
+    await $fetch<ServerResponseI<'coupon', Coupon>>(`/api/coupons/${request.coupon_id}`, {
       headers: {
         'x-api-key': e.req.headers['x-api-key'] as string,
       },

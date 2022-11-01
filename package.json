@@ -23,7 +23,6 @@
     "nodemailer": "^6.8.0"
   },
   "devDependencies": {
-    "@types/cheesy-api": "file:../cheesy-api-types",
     "@types/jest": "^29.1.2",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.39.0",

@@ -5,6 +5,6 @@ if(!process.env.SECRET_WORD) {
   dotenv.config();
 }
 
-const secretKey: KeyObject = createSecretKey(process.env.SECRET_WORD as string, 'utf-8');
+const secretKey: KeyObject = createSecretKey(Buffer.from(process.env.SECRET_WORD as string), 'utf-8');
 
 export default secretKey;
