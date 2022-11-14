@@ -8,3 +8,5 @@ coverage
 .eslintrc.js
 .env
 .output
+*.yaml
+.vscode

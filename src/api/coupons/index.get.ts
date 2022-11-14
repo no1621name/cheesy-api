@@ -18,7 +18,6 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     return new ServerResponse(200, { coupon });
   }
 
-
   const coupons = await couponsCollection.find<Coupon>({}).sort({ _id: 1 }).toArray();
 
   return new ServerResponse(200, { coupons });

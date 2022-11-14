@@ -1,13 +1,12 @@
-import request from 'supertest';
-import { apiKey, baseApiUrl } from '@t/appInfo';
+import { req, apiKey } from '@t/appInfo';
 
 describe('Cors headers', () => {
   it('Headers are setted', async () => {
-    const res = await request(baseApiUrl)
+    const res = await req
 			.get('/products')
-      .set('x-api-key', apiKey);
+      .set('x-api-key', apiKey)
+      .expect(200);
 
-    expect(res.ok).toEqual(true);
     expect(res.headers['access-control-allow-credentials']).toBeDefined();
   });
 });

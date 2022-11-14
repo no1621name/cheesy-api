@@ -10,7 +10,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
 
   const couponsCollection = db.collection('coupons');
 
-  const coupon = await couponsCollection.findOne<PaymentType>({ _id });
+  const coupon = await couponsCollection.findOne<Coupon>({ _id });
 
   if (!coupon) { ServerResponse.throwServerError(404); }
 

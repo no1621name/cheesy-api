@@ -21,8 +21,8 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     useIsNumber(categoryValue) &&
     useIsNumber(limitValue) &&
     limitValue > 0 &&
-    typeof sort === 'string' &&
-    typeof offset === 'string')) { throw ServerResponse.throwServerError(400); }
+    typeof sort === 'string'
+  )) { throw ServerResponse.throwServerError(400,'1'); }
 
   const [sortName, sortValue] = sort.split('.');
   if (

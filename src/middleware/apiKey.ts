@@ -8,7 +8,7 @@ import ServerResponse from '@/utils/serverResponse';
 export default eventHandler(async (e: CompatibilityEvent) => {
   const url = e.req.url!.split('/').filter((str: string) =>  str);
 
-  if (url.length > 1 && e.req.url !== '/api/regist') {
+  if (url.length > 1 && e.req.url !== '/api/regist' && !e.req.url.includes('health')) {
     const apiKey = e.req.headers['x-api-key'];
 
     if (!apiKey || Array.isArray(apiKey)) {

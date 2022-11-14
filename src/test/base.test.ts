@@ -1,5 +1,4 @@
-import request from 'supertest';
-import { baseUrl } from '@t/appInfo';
+import { req } from '@t/appInfo';
 
 describe('Base test', () => {
   it('Jest works', () => {
@@ -7,8 +6,6 @@ describe('Base test', () => {
   });
 
   it('Async works', async () => {
-    const res = await request(baseUrl).get('');
-
-    expect(res.ok).toEqual(true);
+    await req.get('/health').expect(200);
   });
 });

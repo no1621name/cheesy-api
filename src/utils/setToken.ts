@@ -15,18 +15,18 @@ export default async (e: CompatibilityEvent, userInfo: Pick<User, '_id' | 'role'
 
   setCookie(e, 'token', newToken, {
     expires: now,
-    maxAge: expireTime,
     sameSite: 'none',
     secure: true,
     httpOnly: true,
+    path: '/',
   });
 
   setCookie(e, 'checkToken', 'exists', {
     expires: now,
-    maxAge: expireTime,
     sameSite: 'none',
     secure: true,
     httpOnly: false,
+    path: '/',
   });
 
   return newToken;

@@ -9,14 +9,14 @@ export default eventHandler(async (e: CompatibilityEvent) => {
   for (const field in request) {
     const value = request[field as keyof OrderRequet];
 
-    if (value < 0 || (Array.isArray(value) && !value.length)) { throw ServerResponse.throwServerError(400, '1'); }
+    if (value < 0 || (Array.isArray(value) && !value.length)) { throw ServerResponse.throwServerError(400); }
 
     if (field === 'products') {
       if (typeof value !== 'object')  {
-        throw ServerResponse.throwServerError(400, '2');
+        throw ServerResponse.throwServerError(400);
       }
     }else if (typeof value !== 'number' || value < 0) {
-      throw ServerResponse.throwServerError(400, '32');
+      throw ServerResponse.throwServerError(400);
     }
   }
 
@@ -25,7 +25,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
 
   let couponValue = 0;
 
-  if (request.coupon_id < 0) { throw ServerResponse.throwServerError(400, '4'); }
+  if (request.coupon_id < 0) { throw ServerResponse.throwServerError(400); }
   else if(request.coupon_id > 0) {
     await $fetch<ServerResponseI<'coupon', Coupon>>(`/api/coupons/${request.coupon_id}`, {
       headers: {
@@ -36,15 +36,18 @@ export default eventHandler(async (e: CompatibilityEvent) => {
           couponValue = response._data.data.coupon.discountValue;
         }
       },
+      async onResponseError() {
+        ServerResponse.throwServerError(400);
+      }
     });
   }
 
   const totalCost: number = calculateCostOfCart(request.products as WithAmount<ShortProduct>[], couponValue) +
     deliveryType.priceList[request.deliveryOption_index].value;
 
-  if (request.total !== totalCost) { throw ServerResponse.throwServerError(400, '5'); }
+  if (request.total !== totalCost) { throw ServerResponse.throwServerError(400); }
 
-  if (request.paymentType_id === 5 && request.total < 2000) { throw ServerResponse.throwServerError(400, '6'); }
+  if (request.paymentType_id === 5 && request.total < 2000) { throw ServerResponse.throwServerError(400); }
 
   const products = db.collection('products');
   request.products.forEach(async ({ _id }) => {
@@ -61,7 +64,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
   const response = await orders.insertOne({ _id, ...request });
 
   if (response.acknowledged) {
-    return new ServerResponse(200, { message: 'Order successfully registered' });
+    return new ServerResponse(201, { message: 'Order successfully registered' });
   } else {
     ServerResponse.throwServerError(500);
   }

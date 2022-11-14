@@ -19,6 +19,8 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     priceFrom = 0,
     priceTo = 9999,
     search_q = '',
+    ids = [],
+    short = 0,
   } = useQuery(e);
 
   if (!(
@@ -26,12 +28,15 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     type === 'set' ||
     type === 'all')) { throw ServerResponse.throwServerError(400); }
 
+  const productsCollection = db.collection('products');
   const offsetValue = +offset;
   const limitValue = +limit;
   const discountValue = +discount;
   const isInStockValue =  +isInStock;
   const priceFromValue = +priceFrom;
   const priceToValue = +priceTo;
+
+  const idsValue = useQueryToArray(ids);
 
   const categoryValue = useQueryToArray(category);
   const brandValue = useQueryToArray(brand);
@@ -63,6 +68,35 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     sortValue !== 'asc' &&
     sortValue !== 'desc') { throw ServerResponse.throwServerError(400); }
 
+
+  if(idsValue.length) {
+    const shortValue = +short;
+
+    const isValidIds = idsValue
+      .every((id: number) =>  useIsNumber(id) && id !== 0);
+
+    if(!isValidIds || !useIsNumber(shortValue)) {
+      ServerResponse.throwServerError(400);
+    }
+
+    let products;
+
+    if(shortValue) {
+      products = await productsCollection
+        .find<Product>({ _id: { $in: idsValue }})
+        .project<ShortProduct>(shortProductFields)
+        .sort({ _id: 1})
+        .toArray();
+    } else {
+      products = await productsCollection
+        .find<Product>({ _id: { $in: idsValue }})
+        .sort({ _id: 1})
+        .toArray();
+    }
+
+    return new ServerResponse(200, { products }).withPagination(productsCollection, { ids }, offsetValue, limitValue);
+  }
+
   const findParams: any = search_q && typeof search_q === 'string'
     ?  {
         type: 'goods',
@@ -87,8 +121,6 @@ export default eventHandler(async (e: CompatibilityEvent) => {
   } else if (type === 'set') {
     delete findParams.brand_id;
   }
-
-  const productsCollection = db.collection('products');
 
   const products = await productsCollection
     .find<Product>(findParams)

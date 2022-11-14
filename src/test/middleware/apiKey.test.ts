@@ -1,19 +1,18 @@
-import request from 'supertest';
-import { baseApiUrl, apiKey } from '@t/appInfo';
+import { req, apiKey } from '@t/appInfo';
 
 describe('API key', () => {
   it('Error: \'x-api-key\' is required', async () => {
-    const res = await request(baseApiUrl).get('/products');
+    const res = await req
+      .get('/products')
+      .expect(401);
 
-    expect(res.unauthorized).toBe(true);
     expect(res.body.message).toEqual('\'x-api-key\' is required! For more information check index page');
   });
 
   it('Header \'x-api-key\' has sent', async () => {
-    const res = await request(baseApiUrl)
+    await req
       .get('/products')
-      .set('x-api-key', apiKey);
-
-    expect(res.ok).toEqual(true);
+      .set('x-api-key', apiKey)
+      .expect(200);
   });
 });

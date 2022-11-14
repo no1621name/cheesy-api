@@ -2,13 +2,14 @@ import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import transporter from '@/utils/nodemailerTransporter';
+import generateRandomString from '@/utils/generateRandomString';
 
 export default eventHandler(async (e: CompatibilityEvent) => {
   const { email }: { email: string } = await useBody(e);
 
   if (!email) { ServerResponse.throwServerError(400); }
 
-  const newPassword: string = Math.random().toString(36).substr(2, 8);
+  const newPassword = generateRandomString();
 
   const users = db.collection('users');
 

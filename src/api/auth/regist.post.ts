@@ -7,7 +7,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
   const { email, fullname, password } = await useBody<{ email: string, fullname: string, password: string }>(e);
 
   if (!(email && fullname && password)) { ServerResponse.throwServerError(400); }
-
+  console.log(email);
   const users = db.collection('users');
 
   const usetExists = await users.findOne({ email });
@@ -28,23 +28,20 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     viewed: [],
     coupons: [],
     address: {
-      country: 'Россия',
-      country_id: 1,
       city: 'Москва',
       city_id: 1,
       postcode: 0,
       subject_id: 1,
       subject: 'Московская область',
-      street: '',
-      house: 0,
-      apartment: 0
+      apartment: ''
     },
-    role: 'user'
+    viewedCategories: [],
+    role: 'user',
   });
 
   if (response.acknowledged) {
     await setToken(e, { _id, role: 'user' });
-    return new ServerResponse(200, { message: 'Successful registration', });
+    return new ServerResponse(201, { message: 'Successful registration', });
   } else {
     ServerResponse.throwServerError(500);
   }

@@ -1,26 +1,14 @@
-import request from 'supertest';
-import { baseApiUrl, apiKey } from '@t/appInfo';
-import '@t/matchers/toHaveKeys';
+import { req, apiKey } from '@t/appInfo';
+import '@t/matchers';
 
 describe('Subjects', () => {
-  it('Returns subjects by country id', async () => {
-    const res = await request(baseApiUrl)
+  it('Returns subjects', async () => {
+    const res = await req
       .get('/subjects')
-      .query({
-        country: '1'
-      })
-      .set('x-api-key', apiKey);
+      .set('x-api-key', apiKey)
+      .expect(200);
 
-    expect(res.ok).toEqual(true );
-    expect(Array.isArray(res.body.data.subjects)).toBeTruthy();
-    expect(res.body.data.subjects[0]).toHaveKeys(['_id', 'name', 'country_id', 'cities_ids']);
-  });
-
-  it('Throws bad request error', async () => {
-    const res = await request(baseApiUrl)
-      .get('/subjects')
-      .set('x-api-key', apiKey);
-
-    expect(res.badRequest).toEqual(true);
+    expect(res.body.data.subjects).toBeArray();
+    res.body.data.subjects.forEach(s => expect(s).toHaveKeys(['_id', 'name'])) ;
   });
 });
