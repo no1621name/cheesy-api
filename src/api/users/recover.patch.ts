@@ -1,11 +1,10 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import transporter from '@/utils/nodemailerTransporter';
 import generateRandomString from '@/utils/generateRandomString';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { email }: { email: string } = await useBody(e);
+export default eventHandler(async (e) => {
+  const { email }: { email: string } = await readBody(e);
 
   if (!email) { ServerResponse.throwServerError(400); }
 

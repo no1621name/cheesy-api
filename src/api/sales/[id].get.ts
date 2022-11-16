@@ -1,9 +1,7 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
-import { CompatibilityEvent } from 'h3';
 
-
-export default eventHandler(async (e: CompatibilityEvent) => {
+export default eventHandler(async (e) => {
   const _id = +e.context.params.id;
 
   const salesCollection = db.collection('sales');

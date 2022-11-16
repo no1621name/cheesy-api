@@ -1,14 +1,13 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import useIsNumber from '@/utils/useIsNumber';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
+export default eventHandler(async (e) => {
   const {
     id = 0,
     limit = 6,
     offset = 0,
-  } = useQuery(e);
+  } = getQuery(e);
 
   const _id = Number(id);
   const offsetValue = +offset;

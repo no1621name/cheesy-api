@@ -1,9 +1,8 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { type } = useQuery(e);
+export default eventHandler(async (e) => {
+  const { type } = getQuery(e);
 
   if (!(
     type === 'goods' ||

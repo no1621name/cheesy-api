@@ -1,11 +1,10 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import { uploadMany } from '@/utils/cloudinary';
 import useIsNumber from '@/utils/useIsNumber';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const request = await useBody<ReviewRequest>(e);
+export default eventHandler(async (e) => {
+  const request = await readBody<ReviewRequest>(e);
 
   for (const field in request) {
     const value = request[field as keyof ReviewRequest];

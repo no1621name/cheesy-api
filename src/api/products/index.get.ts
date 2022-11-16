@@ -1,12 +1,10 @@
-import { CompatibilityEvent } from 'h3';
-import { SortDirection } from 'mongodb';
 import db from '@/db';
 import shortProductFields from '@/utils/shortProductFields';
 import useIsNumber from '@/utils/useIsNumber';
 import ServerResponse from '@/utils/serverResponse';
 import useQueryToArray from '@/utils/useQueryToArray';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
+export default eventHandler(async (e) => {
   const {
     type = 'goods',
     sort = '_id.asc',
@@ -21,7 +19,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     search_q = '',
     ids = [],
     short = 0,
-  } = useQuery(e);
+  } = getQuery(e);
 
   if (!(
     type === 'goods' ||
@@ -125,7 +123,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
   const products = await productsCollection
     .find<Product>(findParams)
     .project<ShortProduct>(shortProductFields)
-    .sort(sortName, sortValue as SortDirection)
+    .sort(sortName, sortValue)
     .skip(offsetValue)
     .limit(limitValue)
     .toArray();

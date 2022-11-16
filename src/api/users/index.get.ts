@@ -1,12 +1,11 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import checkResponse from '@/utils/checkResponse';
 import ServerResponse from '@/utils/serverResponse';
 import getTokenInfo from '@/utils/getTokenInfo';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
+export default eventHandler(async (e) => {
   try {
-    const tokenInfo = await getTokenInfo(useCookie(e, 'token'));
+    const tokenInfo = await getTokenInfo(getCookie(e, 'token'));
 
     const { _id } = tokenInfo.payload;
 

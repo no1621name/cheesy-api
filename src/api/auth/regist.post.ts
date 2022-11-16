@@ -1,10 +1,9 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import setToken from '@/utils/setToken';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { email, fullname, password } = await useBody<{ email: string, fullname: string, password: string }>(e);
+export default eventHandler(async (e) => {
+  const { email, fullname, password } = await readBody<{ email: string, fullname: string, password: string }>(e);
 
   if (!(email && fullname && password)) { ServerResponse.throwServerError(400); }
   console.log(email);

@@ -1,10 +1,9 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import calculateCostOfCart from '@/utils/calculateCostOfCart';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const request = await useBody<OrderRequet>(e);
+export default eventHandler(async (e) => {
+  const request = await readBody<OrderRequet>(e);
 
   for (const field in request) {
     const value = request[field as keyof OrderRequet];

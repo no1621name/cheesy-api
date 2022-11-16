@@ -1,11 +1,10 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import checkResponse from '@/utils/checkResponse';
 import useIsNumber from '@/utils/useIsNumber';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { subject } = useQuery(e);
+export default eventHandler(async (e) => {
+  const { subject } = getQuery(e);
   const subject_id = Number(subject);
 
   const citiesCollection = db.collection('cities');

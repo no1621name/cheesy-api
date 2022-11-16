@@ -1,4 +1,3 @@
-import { CompatibilityEvent } from 'h3';
 import { jwtVerify } from 'jose';
 import { developersDB } from '@/db';
 import secretKey from '@/secretKey';
@@ -10,7 +9,7 @@ const exceptions = [
   '/api/health'
 ];
 
-export default eventHandler(async (e: CompatibilityEvent) => {
+export default eventHandler(async (e) => {
   const url = e.req.url!.split('/').filter((str: string) =>  str);
 
   if (!exceptions.includes(e.req.url) && url.length > 1) {

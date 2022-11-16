@@ -8,6 +8,5 @@ export default eventHandler(async () => {
 
   if (!deliveryTypes.length) { ServerResponse.throwServerError(404); }
 
-
   return new ServerResponse(200, { deliveryTypes });
 });

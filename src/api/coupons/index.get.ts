@@ -1,11 +1,10 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
-import { CompatibilityEvent } from 'h3';
 
 // TODO: restrictions
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { code } = useQuery(e);
+export default eventHandler(async (e) => {
+  const { code } = getQuery(e);
   const couponsCollection = db.collection('coupons');
 
   if(code && !Array.isArray(code)) {

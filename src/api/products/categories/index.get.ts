@@ -1,10 +1,9 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import useQueryToArray from '@/utils/useQueryToArray';
-import { CompatibilityEvent } from 'h3';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { ids: idsQ } = useQuery(e);
+export default eventHandler(async (e) => {
+  const { ids: idsQ } = getQuery(e);
   const ids = useQueryToArray(idsQ);
 
   const categoriesCollection = db.collection('categories');

@@ -1,9 +1,8 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { newPassword, oldPassword } = await useBody(e);
+export default eventHandler(async (e) => {
+  const { newPassword, oldPassword } = await readBody(e);
 
   if (!(newPassword && oldPassword)) { throw ServerResponse.throwServerError(400); }
 

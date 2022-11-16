@@ -1,9 +1,8 @@
-import { CompatibilityEvent } from 'h3';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { subject = 1 } = useQuery(e);
+export default eventHandler(async (e) => {
+  const { subject = 1 } = getQuery(e);
   const subjectValue = +subject;
 
   if (!subjectValue || Array.isArray(subject)) { throw ServerResponse.throwServerError(400); }

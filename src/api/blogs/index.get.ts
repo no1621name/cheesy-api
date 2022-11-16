@@ -1,16 +1,14 @@
-import { CompatibilityEvent } from 'h3';
-import { SortDirection } from 'mongodb';
 import db from '@/db';
 import shortArticleFields from '@/utils/shortArticleFields';
 import ServerResponse from '@/utils/serverResponse';
 import useIsNumber from '@/utils/useIsNumber';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
+export default eventHandler(async (e) => {
   const {
     limit = 6,
     offset = 0,
     sort = '_id.asc',
-  } = useQuery(e);
+  } = getQuery(e);
 
   const offsetValue = +offset;
   const limitValue = +limit;
@@ -34,7 +32,7 @@ export default eventHandler(async (e: CompatibilityEvent) => {
     .project<ShortArticle>(shortArticleFields)
     .limit(limitValue)
     .skip(offsetValue)
-    .sort(sortName, sortValue as SortDirection)
+    .sort(sortName, sortValue)
     .toArray();
 
   return await new ServerResponse(200, { blogs }).withPagination(blogsCollection, {}, offsetValue, limitValue);

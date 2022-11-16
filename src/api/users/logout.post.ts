@@ -1,7 +1,6 @@
-import { CompatibilityEvent } from 'h3';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler((e: CompatibilityEvent) =>{
+export default eventHandler((e) =>{
   setCookie(e, 'token', null);
   setCookie(e, 'checkToken', null);
 

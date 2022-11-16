@@ -1,12 +1,11 @@
-import { CompatibilityEvent } from 'h3';
 import shortProductFields from '@/utils/shortProductFields';
 import db from '@/db';
 import checkResponse from '@/utils/checkResponse';
 import useIsNumber from '@/utils/useIsNumber';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { short = 0 } = useQuery(e);
+export default eventHandler(async (e) => {
+  const { short = 0 } = getQuery(e);
   const _id = +e.context.params.id;
 
   if (!useIsNumber(_id)) { throw ServerResponse.throwServerError(400); }

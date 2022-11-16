@@ -1,4 +1,3 @@
-import { CompatibilityEvent } from 'h3';
 import { SignJWT } from 'jose';
 import secretKey from '@/secretKey';
 import ServerResponse from '@/utils/serverResponse';
@@ -6,8 +5,8 @@ import { developersDB } from '@/db';
 import getISODateNow from '@/utils/getISODateNow';
 import transporter from '@/utils/nodemailerTransporter';
 
-export default eventHandler(async (e: CompatibilityEvent) => {
-  const { email } = await useBody<{ email: string }>(e);
+export default eventHandler(async (e) => {
+  const { email } = await readBody<{ email: string }>(e);
 
   if (!email) { ServerResponse.throwServerError(400); }
 
