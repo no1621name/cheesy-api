@@ -5,10 +5,15 @@ import secretKey from '@/secretKey';
 import getISODateNow from '@/utils/getISODateNow';
 import ServerResponse from '@/utils/serverResponse';
 
+const exceptions = [
+  '/api/regist',
+  '/api/health'
+];
+
 export default eventHandler(async (e: CompatibilityEvent) => {
   const url = e.req.url!.split('/').filter((str: string) =>  str);
 
-  if (url.length > 1 && e.req.url !== '/api/regist' && !e.req.url.includes('health')) {
+  if (!exceptions.includes(e.req.url) && url.length > 1) {
     const apiKey = e.req.headers['x-api-key'];
 
     if (!apiKey || Array.isArray(apiKey)) {

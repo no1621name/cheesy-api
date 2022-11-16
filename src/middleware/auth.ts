@@ -3,12 +3,17 @@ import { jwtVerify } from 'jose';
 import ServerResponse from '@/utils/serverResponse';
 import secretKey from '@/secretKey';
 
+const exceptions = [
+  '/api/users/recover',
+  '/api/users/logout'
+];
+
 export default eventHandler(async (e: CompatibilityEvent) => {
   const url = e.req.url;
 
-  if ((url.includes('users') && !url.includes('recover') && !url.includes('logout')) ||
+  if (!exceptions.includes(url) && ((url.includes('users')) ||
       (url.includes('reviews') && e.req.method === 'POST') ||
-      url.match(/orders\/\d/gi)
+      url.match(/orders\/\d/gi))
     ) {
     const token = useCookie(e, 'token');
     if (!token || Array.isArray(token)) {
