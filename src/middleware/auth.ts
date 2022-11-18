@@ -7,7 +7,7 @@ const exceptions = [
   '/api/users/logout'
 ];
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const url = e.req.url;
 
   if (!exceptions.includes(url) && ((url.includes('users')) ||

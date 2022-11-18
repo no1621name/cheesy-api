@@ -3,8 +3,8 @@ import ServerResponse from '@/utils/serverResponse';
 import { uploadMany } from '@/utils/cloudinary';
 import useIsNumber from '@/utils/useIsNumber';
 
-export default eventHandler(async (e) => {
-  const request = await readBody<ReviewRequest>(e);
+export default defineEventHandler(async (e) => {
+  const request = await useBody<ReviewRequest>(e);
 
   for (const field in request) {
     const value = request[field as keyof ReviewRequest];

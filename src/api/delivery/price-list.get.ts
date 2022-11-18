@@ -1,8 +1,8 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e) => {
-  const { subject = 1 } = getQuery(e);
+export default defineEventHandler(async (e) => {
+  const { subject = 1 } = useQuery(e);
   const subjectValue = +subject;
 
   if (!subjectValue || Array.isArray(subject)) { throw ServerResponse.throwServerError(400); }

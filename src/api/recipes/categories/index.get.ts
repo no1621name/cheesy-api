@@ -1,7 +1,7 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async () => {
+export default defineEventHandler(async () => {
   const recipesCategories = db.collection('recipesCategories');
   const categories = await recipesCategories.find<RecipeCategory>({}).sort({ _id: 1 }).toArray();
 

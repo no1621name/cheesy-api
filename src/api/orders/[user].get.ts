@@ -2,7 +2,7 @@ import db from '@/db';
 import useIsNumber from '@/utils/useIsNumber';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const user_id = +e.context.params.user;
 
   if (!useIsNumber(user_id)) { throw ServerResponse.throwServerError(400); }

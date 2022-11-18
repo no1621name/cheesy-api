@@ -1,6 +1,6 @@
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler((e) =>{
+export default defineEventHandler((e) =>{
   setCookie(e, 'token', null);
   setCookie(e, 'checkToken', null);
 

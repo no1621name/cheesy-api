@@ -5,8 +5,8 @@ import { developersDB } from '@/db';
 import getISODateNow from '@/utils/getISODateNow';
 import transporter from '@/utils/nodemailerTransporter';
 
-export default eventHandler(async (e) => {
-  const { email } = await readBody<{ email: string }>(e);
+export default defineEventHandler(async (e) => {
+  const { email } = await useBody<{ email: string }>(e);
 
   if (!email) { ServerResponse.throwServerError(400); }
 

@@ -2,8 +2,8 @@ import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import useQueryToArray from '@/utils/useQueryToArray';
 
-export default eventHandler(async (e) => {
-  const { ids: idsQ } = getQuery(e);
+export default defineEventHandler(async (e) => {
+  const { ids: idsQ } = useQuery(e);
   const ids = useQueryToArray(idsQ);
 
   const categoriesCollection = db.collection('categories');

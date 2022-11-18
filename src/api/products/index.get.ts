@@ -4,7 +4,7 @@ import useIsNumber from '@/utils/useIsNumber';
 import ServerResponse from '@/utils/serverResponse';
 import useQueryToArray from '@/utils/useQueryToArray';
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const {
     type = 'goods',
     sort = '_id.asc',
@@ -19,7 +19,7 @@ export default eventHandler(async (e) => {
     search_q = '',
     ids = [],
     short = 0,
-  } = getQuery(e);
+  } = useQuery(e);
 
   if (!(
     type === 'goods' ||

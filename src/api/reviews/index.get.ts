@@ -2,12 +2,12 @@ import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import useIsNumber from '@/utils/useIsNumber';
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const {
     id = 0,
     limit = 6,
     offset = 0,
-  } = getQuery(e);
+  } = useQuery(e);
 
   const _id = Number(id);
   const offsetValue = +offset;

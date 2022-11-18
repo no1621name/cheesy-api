@@ -2,8 +2,8 @@ import setToken from '@/utils/setToken';
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default  eventHandler(async (e) => {
-  const { email, password } = await readBody<{ email: string, password: string }>(e);
+export default defineEventHandler(async (e) => {
+  const { email, password } = await useBody<{ email: string, password: string }>(e);
 
   if (!(email && password)) { ServerResponse.throwServerError(400); }
 

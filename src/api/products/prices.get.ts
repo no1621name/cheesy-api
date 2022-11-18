@@ -1,8 +1,8 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e) => {
-  const { type } = getQuery(e);
+export default defineEventHandler(async (e) => {
+  const { type } = useQuery(e);
 
   if (!(
     type === 'goods' ||

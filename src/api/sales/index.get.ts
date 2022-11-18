@@ -1,7 +1,7 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async () => {
+export default defineEventHandler(async () => {
   const salesCollection = db.collection('sales');
   const sales = await salesCollection.find<Sale>({}).toArray();
 

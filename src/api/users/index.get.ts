@@ -3,7 +3,7 @@ import checkResponse from '@/utils/checkResponse';
 import ServerResponse from '@/utils/serverResponse';
 import getTokenInfo from '@/utils/getTokenInfo';
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   try {
     const tokenInfo = await getTokenInfo(getCookie(e, 'token'));
 

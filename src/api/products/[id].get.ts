@@ -4,8 +4,8 @@ import checkResponse from '@/utils/checkResponse';
 import useIsNumber from '@/utils/useIsNumber';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e) => {
-  const { short = 0 } = getQuery(e);
+export default defineEventHandler(async (e) => {
+  const { short = 0 } = useQuery(e);
   const _id = +e.context.params.id;
 
   if (!useIsNumber(_id)) { throw ServerResponse.throwServerError(400); }

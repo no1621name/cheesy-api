@@ -1,7 +1,7 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async () => {
+export default defineEventHandler(async () => {
   const deliveryCollection = db.collection('delivery');
 
   const deliveryTypes = await deliveryCollection.find<Delivery>({}).sort({ _id: 1 }).toArray();

@@ -3,8 +3,8 @@ import checkResponse from '@/utils/checkResponse';
 import useIsNumber from '@/utils/useIsNumber';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e) => {
-  const { subject } = getQuery(e);
+export default defineEventHandler(async (e) => {
+  const { subject } = useQuery(e);
   const subject_id = Number(subject);
 
   const citiesCollection = db.collection('cities');

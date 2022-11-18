@@ -1,7 +1,7 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const _id = +e.context.params.id;
 
   const salesCollection = db.collection('sales');

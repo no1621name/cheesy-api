@@ -2,7 +2,7 @@ import db from '@/db';
 import checkResponse from '@/utils/checkResponse';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async () => {
+export default defineEventHandler(async () => {
   const subjectsCollection = db.collection('subjects');
   const subjects = await subjectsCollection
     .find<Subject>({})

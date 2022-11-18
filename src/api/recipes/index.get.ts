@@ -3,13 +3,13 @@ import shortArticleFields from '@/utils/shortArticleFields';
 import ServerResponse from '@/utils/serverResponse';
 import useIsNumber from '@/utils/useIsNumber';
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const {
     category = 0,
     limit = 6,
     offset = 0,
     sort = '_id.asc',
-  } = getQuery(e);
+  } = useQuery(e);
 
   const categoryValue = +category;
   const limitValue = +limit;

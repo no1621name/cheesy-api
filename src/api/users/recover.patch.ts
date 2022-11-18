@@ -3,8 +3,8 @@ import ServerResponse from '@/utils/serverResponse';
 import transporter from '@/utils/nodemailerTransporter';
 import generateRandomString from '@/utils/generateRandomString';
 
-export default eventHandler(async (e) => {
-  const { email }: { email: string } = await readBody(e);
+export default defineEventHandler(async (e) => {
+  const { email }: { email: string } = await useBody(e);
 
   if (!email) { ServerResponse.throwServerError(400); }
 

@@ -3,12 +3,12 @@ import shortArticleFields from '@/utils/shortArticleFields';
 import ServerResponse from '@/utils/serverResponse';
 import useIsNumber from '@/utils/useIsNumber';
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const {
     limit = 6,
     offset = 0,
     sort = '_id.asc',
-  } = getQuery(e);
+  } = useQuery(e);
 
   const offsetValue = +offset;
   const limitValue = +limit;

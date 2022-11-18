@@ -3,8 +3,8 @@ import ServerResponse from '@/utils/serverResponse';
 
 // TODO: restrictions
 
-export default eventHandler(async (e) => {
-  const { code } = getQuery(e);
+export default defineEventHandler(async (e) => {
+  const { code } = useQuery(e);
   const couponsCollection = db.collection('coupons');
 
   if(code && !Array.isArray(code)) {

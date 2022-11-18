@@ -2,13 +2,12 @@ import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 import setToken from '@/utils/setToken';
 
-export default eventHandler(async (e) => {
-  const { email, fullname, password } = await readBody<{ email: string, fullname: string, password: string }>(e);
+export default defineEventHandler(async (e) => {
+  const { email, fullname, password } = await useBody<{ email: string, fullname: string, password: string }>(e);
 
   if (!(email && fullname && password)) { ServerResponse.throwServerError(400); }
-  console.log(email);
-  const users = db.collection('users');
 
+  const users = db.collection('users');
   const usetExists = await users.findOne({ email });
 
   if (usetExists) { ServerResponse.throwServerError(400, 'Already exists'); }

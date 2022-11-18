@@ -1,8 +1,8 @@
 import db from '@/db';
 import ServerResponse from '@/utils/serverResponse';
 
-export default eventHandler(async (e) => {
-  const { newPassword, oldPassword } = await readBody(e);
+export default defineEventHandler(async (e) => {
+  const { newPassword, oldPassword } = await useBody(e);
 
   if (!(newPassword && oldPassword)) { throw ServerResponse.throwServerError(400); }
 
