@@ -1,8 +1,8 @@
 import { SignJWT } from 'jose';
-import { CompatibilityEvent, setCookie } from 'h3';
+import { setCookie } from 'h3';
 import secretKey from '@/secretKey';
 
-export default async (e: CompatibilityEvent, userInfo: Pick<User, '_id' | 'role'>) => {
+export default async (e, userInfo: Pick<User, '_id' | 'role'>) => {
   const now = new Date();
   const expireTime = now.getTime() + 1000 * 60 * 60 * 24;
   now.setTime(expireTime);
@@ -13,20 +13,18 @@ export default async (e: CompatibilityEvent, userInfo: Pick<User, '_id' | 'role'
     .setExpirationTime('24h')
     .sign(secretKey);
 
-  setCookie(e, 'token', newToken, {
-    expires: now,
-    sameSite: 'none',
-    secure: true,
-    httpOnly: true,
-    path: '/',
-  });
-
   setCookie(e, 'checkToken', 'exists', {
     expires: now,
     sameSite: 'none',
     secure: true,
     httpOnly: false,
-    path: '/',
+  });
+
+  setCookie(e, 'token', newToken, {
+    expires: now,
+    sameSite: 'none',
+    secure: true,
+    httpOnly: true,
   });
 
   return newToken;

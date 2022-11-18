@@ -13,30 +13,41 @@ export default defineEventHandler(async (e) => {
 
     if (field === 'images') {
       if(typeof value !== 'object'){
-        ServerResponse.throwServerError(400);
+        ServerResponse.throwServerError(400, '1');
       }
     } else if (field === 'score') {
       if (value <= 0 || value > 5){
-        ServerResponse.throwServerError(400);
+        ServerResponse.throwServerError(400, '2');
       }
-    } else if (field !== 'product_id' && typeof value !== 'string') {
-      ServerResponse.throwServerError(400);
+    } else if ((field !== 'product_id' && field !== 'user_id') && typeof value !== 'string') {
+      ServerResponse.throwServerError(400, '3');
     }
   }
 
   const uploadedImages = await uploadMany(request.images);
 
   const reviewsCollection = db.collection('reviews');
+  const reviewIsExists = await reviewsCollection.findOne({
+    user_id: request.user_id,
+    product_id: request.product_id
+  });
+
+  if(reviewIsExists) {
+    return ServerResponse.throwServerError(400, 'Review already exists');
+  }
+
+  const { score, text, city, fullname, user_id } = request;
+  let { product_id } = request;
 
   const lastId = (await reviewsCollection.find<Review>({}).project({ _id: 1 }).sort({ _id: -1 }).toArray())[0]._id;
   const _id = lastId + 1;
 
   const responseData: { message: string, rating?: number } = { message: 'Review successfully added' };
 
-  if(useIsNumber(request.product_id) && request.product_id > 0) {
+  if(useIsNumber(product_id) && product_id > 0) {
     const productsCollection = db.collection('products');
-    await productsCollection.updateOne({ _id: request.product_id }, { $push: { reviews_ids: _id } });
-    const product = await productsCollection.findOne<Product>({_id: request.product_id});
+    await productsCollection.updateOne({ _id: product_id }, { $push: { reviews_ids: _id } });
+    const product = await productsCollection.findOne<Product>({_id: product_id});
 
     const reviews = await reviewsCollection.find<Review>({product_id: product._id}).toArray();
 
@@ -46,7 +57,7 @@ export default defineEventHandler(async (e) => {
 
     const rating = +(reviewsMiddle / reviews.length).toFixed(2);
 
-    const scoreRequest = await productsCollection.updateOne({ _id: request.product_id }, { $set: { rating } });
+    const scoreRequest = await productsCollection.updateOne({ _id: product_id }, { $set: { rating } });
 
     if(scoreRequest.acknowledged) {
       responseData.rating = rating;
@@ -54,19 +65,20 @@ export default defineEventHandler(async (e) => {
       throw ServerResponse.throwServerError(500);
     }
   } else {
-    request.product_id = 0;
+    product_id = 0;
   }
 
   const response = await reviewsCollection.insertOne({
     _id,
     images: uploadedImages,
-    fullname: request.fullname,
-    score: request.score,
-    text: request.text,
-    city: request.city,
+    fullname,
+    score,
+    text,
+    city,
+    user_id,
+    product_id,
     date: new Date().toISOString(),
   });
-
 
   if (response.acknowledged) {
     return new ServerResponse(201, responseData);

@@ -9,7 +9,7 @@ export default defineEventHandler(async (e) => {
 
   const brandsCollection = db.collection('brands');
 
-  const brandInfo = await brandsCollection.findOne({ _id });
+  const brandInfo = await brandsCollection.findOne<Brand>({ _id });
 
   return new ServerResponse(200, { brand: brandInfo, });
 });
